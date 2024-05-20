@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Friends;
 use App\Models\User;
-use App\Models\UserImages;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(UserImages::TABLE, function (Blueprint $table) {
+        Schema::create(Friends::TABLE, function (Blueprint $table) {
             $table->id();
-            $table->string('image');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('friend');
+            $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on(User::TABLE);
-            $table->timestamps();
+            $table->foreign('friend')->references('id')->on(User::TABLE);
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_images');
+        Schema::dropIfExists('friends');
     }
 };
